@@ -1,4 +1,4 @@
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, Alert, ScrollView } from 'react-native';
 import { useState } from 'react';
 import VoltarInicial from '../componentes/VoltarInicial';
 
@@ -22,10 +22,10 @@ export default function Contato() {
   };
 
   return (
-    <View style={styles.containerPrincipal} >
+    <ScrollView style={styles.containerPrincipal} >
       <VoltarInicial />
     <View style={styles.container}>
-      <Text style={styles.titulo}>Relate o Seu Problema</Text>
+      <Text style={styles.titulo}>Relate Seu Problema</Text>
       <Text style={styles.descricao}>Entraremos em Contato com você</Text>
       {/* Nome */}
       <View style={styles.campo}>
@@ -83,7 +83,7 @@ export default function Contato() {
         <Text style={styles.botaoTexto}>Enviar Mensagem</Text>
       </TouchableOpacity>
     </View>
-    </View>
+    </ScrollView>
   );
 }
 
@@ -92,11 +92,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#0e0e0e',
     height: '100vh',
     paddingTop: 10,
+    paddingBottom: 150,
   },
   container: {
     width: '90%',
     alignSelf: 'center',
-    marginTop: 15,
+    marginTop: 5,
     backgroundColor: '#0f172a',
     padding: 20,
     borderRadius: 16,

@@ -17,7 +17,7 @@ export default function VencedorPartida() {
             <Header />
             {/* <Text style={styles.titulo}>Aposta quem vai Ganhar a Partida </Text> */}
 
-            <Text style={styles.descricao3} >Aposte no time que você acredita que será o vencedor:</Text>
+            <Text style={styles.descricao3} >Qual time você acredita que será o vencedor:</Text>
 
 
             {/* <View style={styles.grid}>
@@ -31,7 +31,7 @@ export default function VencedorPartida() {
                 navigation={navigation}
                 matchTime="19:30"
                 matchDate="sábado, 12 agosto"
-                 gradientColors={["#28563e", "#111827"]} 
+                gradientColors={["#28563e", "#111827"]}
                 teamA={{
                     nome: "Brasil",
                     imagem: require("../assets/brasil.png"),
@@ -46,10 +46,11 @@ export default function VencedorPartida() {
             <TouchableOpacity
                 style={styles.botao}
                 activeOpacity={0.85}
+                onPress={() => navigation.replace('FormularioPartida')} // <-- CORRETO aqui
             >
-                <Text style={styles.botaoTexto}>Apostar</Text>
+                <Text style={styles.botaoTexto}>Jogar</Text>
             </TouchableOpacity>
-            <Text style={styles.descricao2}>Preço da Aposta:</Text>
+            <Text style={styles.descricao2}>Valor da Jogo:</Text>
 
 
             <CardInformativo
@@ -70,7 +71,7 @@ const styles = StyleSheet.create({
     scrollContainer: {
         minHeight: SCREEN_HEIGHT, // garante que o conteúdo ocupe toda a altura
         alignItems: 'center',
-        paddingBottom: 0,
+        paddingBottom: 50,
     },
 
     titulo: {

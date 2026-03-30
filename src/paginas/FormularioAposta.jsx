@@ -37,7 +37,7 @@ export default function FormularioAposta() {
       <VoltarInicial/>
       {!apostaEnviada ? (
         <View style={styles.container}>
-          <Text style={styles.titulo}>Fazer Aposta</Text>
+          <Text style={styles.titulo}>Fazer o Jogo</Text>
 
           {/* Nome */}
           <View style={styles.campo}>
@@ -112,7 +112,7 @@ export default function FormularioAposta() {
 
           {/* Botão */}
           <TouchableOpacity style={styles.botao} onPress={enviar}>
-            <Text style={styles.botaoTexto}>Enviar Aposta</Text>
+            <Text style={styles.botaoTexto}>Enviar</Text>
           </TouchableOpacity>
         </View>
       ) : (
@@ -128,6 +128,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     backgroundColor: '#0e0e0e',
     paddingTop: 10,
+    paddingBottom: 50,
   },
   container: {
     width: '90%',
@@ -137,7 +138,7 @@ const styles = StyleSheet.create({
     paddingVertical: 40,
     paddingBottom: 55,
     alignSelf: 'center',
-    marginTop: 20,
+    marginTop: 5,
   },
   titulo: {
     color: '#fff',

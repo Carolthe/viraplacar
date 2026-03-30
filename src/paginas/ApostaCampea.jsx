@@ -15,9 +15,9 @@ export default function ApostaCampea() {
             contentContainerStyle={styles.scrollContainer}
             style={styles.scrollStyle}>
             <Header />
-            <Text style={styles.titulo}>Aposta Copa do Mundo </Text>
+            <Text style={styles.titulo}>Copa do Mundo </Text>
             <Text style={styles.descricao}> Escolha quem vai ganhar a copa do mundo</Text>
-            <Text style={styles.descricao2}>Preço da Aposta:</Text>
+            <Text style={styles.descricao2}>Valor do Jogo:</Text>
             <CardInformativo
             preco="R$ 10,00"
             texto="(O valor aumenta conforme se aproxima o dia do Jogo Final)"
@@ -96,17 +96,17 @@ export default function ApostaCampea() {
                 onPressBotao={() => navigation.replace('FormularioAposta')}/>
                 <CardBandeira nome="Escócia" imagem={require('../assets/escocia.png')} 
                 onPressBotao={() => navigation.replace('FormularioAposta')}/>
-                <CardBandeira nome="Espanha" imagem={require('../assets/brasil.png')} 
+                <CardBandeira nome="Espanha" imagem={require('../assets/espanha.png')} 
                 onPressBotao={() => navigation.replace('FormularioAposta')}/>
-                <CardBandeira nome="Suiça" imagem={require('../assets/brasil.png')} 
+                <CardBandeira nome="Suiça" imagem={require('../assets/suica.png')} 
                 onPressBotao={() => navigation.replace('FormularioAposta')}/>
-                <CardBandeira nome="Curação" imagem={require('../assets/brasil.png')} 
+                <CardBandeira nome="Curação" imagem={require('../assets/curacao.png')} 
                 onPressBotao={() => navigation.replace('FormularioAposta')}/>
-                <CardBandeira nome="Haiti" imagem={require('../assets/brasil.png')} 
+                <CardBandeira nome="Haiti" imagem={require('../assets/haiti.png')} 
                 onPressBotao={() => navigation.replace('FormularioAposta')}/>
-                <CardBandeira nome="Panamá" imagem={require('../assets/brasil.png')} 
+                <CardBandeira nome="Panamá" imagem={require('../assets/panama.png')} 
                 onPressBotao={() => navigation.replace('FormularioAposta')}/>
-                <CardBandeira nome="Nova Zelandia" imagem={require('../assets/brasil.png')} 
+                <CardBandeira nome="Nova Zelandia" imagem={require('../assets/novazelandia.png')} 
                 onPressBotao={() => navigation.replace('FormularioAposta')}/>
             </View>
                 <CardValordaAposta/>
@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
     scrollContainer: {
         minHeight: SCREEN_HEIGHT, // garante que o conteúdo ocupe toda a altura
         alignItems: 'center',
-        paddingBottom: 0,
+        paddingBottom: 50,
     },
 
     titulo: {
@@ -140,10 +140,10 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         paddingHorizontal: 55,
         marginHorizontal: 20,
+        paddingBottom: 20,
     },
     descricao2: {
-        color: 'white',
-        marginTop: 15,
+        color: 'white', 
         marginBottom: 10,
         fontWeight: 500,
         fontSize: 17,

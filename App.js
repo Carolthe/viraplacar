@@ -6,6 +6,10 @@ import FormularioAposta from './src/paginas/FormularioAposta';
 import Contato from './src/paginas/Contato';
 import PlacarJogo from './src/paginas/PlacarJogo';
 import VencedorPartida from './src/paginas/VencedorPartida';
+import FormularioPlacar from './src/paginas/FormularioPlacar';
+import FormularioPartida from './src/paginas/FormularioPartida';
+
+
 
 const Stack = createNativeStackNavigator();
 
@@ -18,6 +22,8 @@ export default function App() {
         <Stack.Screen name="PlacarJogo" component={PlacarJogo} />
         <Stack.Screen name="VencedorPartida" component={VencedorPartida} />
         <Stack.Screen name="FormularioAposta" component={FormularioAposta} />
+        <Stack.Screen name="FormularioPlacar" component={FormularioPlacar} />
+        <Stack.Screen name="FormularioPartida" component={FormularioPartida} />
         <Stack.Screen name="FormularioContato" component={Contato} />
 
       </Stack.Navigator>

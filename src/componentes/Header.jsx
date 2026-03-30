@@ -1,11 +1,13 @@
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import VoltarInicial from './VoltarInicial';
 
 export default function Header() {
   const navigation = useNavigation()
   return (
     <View style={styles.container}> {/* Lado esquerdo */}
       <View style={styles.containerLogo}>
+        <VoltarInicial/>
         <Image source={require('../assets/bola1.png')} style={styles.image} />
         <Text style={styles.texto}
         onPress={()=> navigation.replace('Home')}
@@ -32,7 +34,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row', 
     alignItems: 'center',
     gap: 5,
-    marginLeft: 18,
   },
   image: {
     width: 20,

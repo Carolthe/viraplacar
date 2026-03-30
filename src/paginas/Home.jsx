@@ -4,6 +4,7 @@ import CardOpcoes from '../componentes/CardOpcoes';
 import CardOpcoesGrande from '../componentes/CardOpcaoGrande';
 import Header from '../componentes/Header';
 import { useNavigation } from '@react-navigation/native';
+import AlertPagamentoFeito from '../componentes/AlertPagamentoFeito';
 
 export default function Home() {
 
@@ -14,7 +15,7 @@ export default function Home() {
       <Header/>
       <Carousel />
 
-      <Text style={styles.texto}>Faça Sua Aposta</Text>
+      <Text style={styles.texto}>Faça Seu Jogo</Text>
 
       {/* 🔥 Container dos cards pequenos */}
       <View style={styles.containerCards}>
@@ -43,7 +44,7 @@ export default function Home() {
         titulo="Campeão da Copa"
         descricao="Quem vai levantar o troféu?"
         textoExtra="Escolha a Seleção:"
-        textoBotao="Apostar"
+        textoBotao="Jogar"
         onPressBotao={() => navigation.replace('ApostaCampea')}
       />
 
@@ -52,7 +53,7 @@ export default function Home() {
         titulo="Vencedor da Partida"
         descricao="Quem vai ganhar a partida?"
         textoExtra="Escolha o Time:"
-        textoBotao="Apostar"
+        textoBotao="Jogar"
          onPressBotao={() => navigation.replace('VencedorPartida')}
       />
 
@@ -61,9 +62,10 @@ export default function Home() {
         titulo="Placar do Jogo"
         descricao="Qual o placar do jogo?"
         textoExtra="Escolha o Placar:"
-        textoBotao="Apostar"
+        textoBotao="Jogar"
          onPressBotao={() => navigation.replace('PlacarJogo')}
       />
+      {/* <AlertPagamentoFeito/> */}
     </ScrollView>
   );
 }
@@ -71,7 +73,7 @@ export default function Home() {
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    paddingBottom: 40,
+    paddingBottom: 100,
     backgroundColor: '#0e0e0e',
   },
 

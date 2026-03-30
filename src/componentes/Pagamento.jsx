@@ -33,6 +33,7 @@ export default function Pagamento() {
                         <Text style={styles.botaoTexto}>Copiar</Text>
                     </TouchableOpacity>
                 </View>
+                <Text style={styles.textoPreo}>Valor: 5,00</Text>
 
                 <Text style={styles.text}>Depois de feito o pagamento, clique abaixo:</Text>
 
@@ -96,8 +97,13 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontSize: 16,
     },
+    textoPreo: {
+        color: '#40e67d',
+        fontSize: 17,
+        fontWeight: 'bold',
+    },
     botaoPagamento: {
-        backgroundColor: '#22c55e',
+        backgroundColor: '#224ec5',
         paddingVertical: 14,
         paddingHorizontal: 30,
         borderRadius: 12,

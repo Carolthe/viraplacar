@@ -27,29 +27,31 @@ export default function PlacarJogo() {
                 <CardBandeira nome="Mexíco" imagem={require('../assets/mexico.png')}
                     onPressBotao={() => navigation.replace('FormularioAposta')} />
             </View> */}
-                 <CardPartida
-              navigation={navigation}
-              matchTime="19:30"
-              matchDate="sábado, 12 agosto"
-//  gradientColors={["#28563e", "#111827"]} // 🔥 custom            
-              teamA={{
-                nome: "Brasil",
-                imagem: require("../assets/brasil.png"),
-              }}
-            
-              teamB={{
-                nome: "Argentina",
-                imagem: require("../assets/argentina.png"),
-              }}
+            <CardPartida
+                navigation={navigation}
+                matchTime="19:30"
+                matchDate="sábado, 12 agosto"
+                //  gradientColors={["#28563e", "#111827"]} // 🔥 custom            
+                teamA={{
+                    nome: "Brasil",
+                    imagem: require("../assets/brasil.png"),
+                }}
+
+                teamB={{
+                    nome: "Argentina",
+                    imagem: require("../assets/argentina.png"),
+                }}
             />
             {/* Botão */}
             <TouchableOpacity
                 style={styles.botao}
                 activeOpacity={0.85}
+                onPress={() => navigation.replace('FormularioPlacar')} // <-- CORRETO aqui
             >
-                <Text style={styles.botaoTexto}>Apostar</Text>
+                <Text style={styles.botaoTexto}>Jogar</Text>
             </TouchableOpacity>
-            <Text style={styles.descricao2}>Preço da Aposta:</Text>
+            
+            <Text style={styles.descricao2}>Valor do Jogo:</Text>
 
 
             <CardInformativo
@@ -57,7 +59,7 @@ export default function PlacarJogo() {
                 texto="(A aposta será valida até começar o jogo)"
                 img={require('../assets/foguete.png')} />
             <CardValordaAposta />
-            <CardDescricaoPremio/>
+            <CardDescricaoPremio />
         </ScrollView>
     );
 }
@@ -70,7 +72,7 @@ const styles = StyleSheet.create({
     scrollContainer: {
         minHeight: SCREEN_HEIGHT, // garante que o conteúdo ocupe toda a altura
         alignItems: 'center',
-        paddingBottom: 0,
+        paddingBottom: 50,
     },
 
     titulo: {
