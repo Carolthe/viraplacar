@@ -1,98 +1,117 @@
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 
-export default function CardOpcoesGrande({ imagem, titulo, descricao, textoExtra, textoBotao, onPress }) {
+export default function CardOpcoesGrande({
+  imagem,
+  titulo,
+  descricao,
+  textoExtra,
+  textoBotao,
+  onPressBotao
+}) {
   return (
     <View style={styles.container}>
-      {/* Linha principal: imagem + textos */}
+      
+      {/* Topo */}
       <View style={styles.row}>
         <Image source={imagem} style={styles.imagem} />
-        
+
         <View style={styles.textContainer}>
           <Text style={styles.titulo}>{titulo}</Text>
           <Text style={styles.descricao}>{descricao}</Text>
         </View>
       </View>
 
-      {/* Parte inferior centralizada: texto extra + botão */}
-      <View style={styles.footer}>
-        <Text style={styles.textoExtra}>{textoExtra}</Text>
-        
-        <TouchableOpacity style={styles.botao} onPress={onPress} activeOpacity={0.8}>
-          <Text style={styles.botaoTexto}>{textoBotao}</Text>
-        </TouchableOpacity>
-      </View>
+      {/* Meio */}
+      <Text style={styles.textoExtra}>{textoExtra}</Text>
+
+      {/* Botão */}
+      <TouchableOpacity
+        style={styles.botao}
+        activeOpacity={0.85}
+        onPress={onPressBotao}
+      >
+        <Text style={styles.botaoTexto}>{textoBotao}</Text>
+      </TouchableOpacity>
+
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    width: 370,
-    height: 309,
-    backgroundColor: '#1f2937',
-    borderRadius: 16,
-    padding: 16,
-    justifyContent: 'flex-start',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 6,
+    width: '90%',
+    backgroundColor: '#0f172a',
+    borderRadius: 18,
+    padding: 20,
+    marginTop: 15,
+
+    // 💚 BORDA VERDE MAIS SUAVE
+    borderWidth: 2,
+    borderColor: 'rgba(34, 197, 94, 0.4)', // 👈 opacidade reduzida
+
+    // 💚 glow mais leve
+    shadowColor: '#22c55e',
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.3, // 👈 menos forte
+    shadowRadius: 8,
     elevation: 8,
-    marginVertical: 10,
   },
 
   row: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 20,
+    marginBottom: 15,
+    marginLeft: 23,
   },
 
   imagem: {
     width: 40,
-    height: 40,
+    height: 42,
     resizeMode: 'contain',
-    marginRight: 16,
+    marginRight: 15,
   },
 
   textContainer: {
     flex: 1,
-    justifyContent: 'center',
   },
 
   titulo: {
-    color: '#f9fafb',
-    fontSize: 20,
+    color: '#ffffff',
+    fontSize: 18,
     fontWeight: 'bold',
-    marginBottom: 4,
   },
 
   descricao: {
-    color: '#d1d5db',
+    color: '#bbf7d0',
     fontSize: 14,
-  },
-
-  footer: {
-    alignItems: 'center', // centraliza tudo dentro do footer
+    marginTop: 4,
   },
 
   textoExtra: {
-    color: '#9ca3af',
-    fontSize: 13,
-    marginBottom: 12,
+    color: '#4ade80',
+    fontSize: 16,
     textAlign: 'center',
+    marginVertical: 15,
+    fontWeight: '600',
   },
 
   botao: {
     backgroundColor: '#22c55e',
     paddingVertical: 12,
-    paddingHorizontal: 24,
-    borderRadius: 10,
+    borderRadius: 12,
+    alignItems: 'center',
+
+    // glow botão leve
+    shadowColor: '#22c55e',
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.5,
+    shadowRadius: 6,
+    elevation: 5,
   },
 
   botaoTexto: {
-    color: 'white',
+    color: '#fff',
     fontWeight: 'bold',
     fontSize: 16,
-    textAlign: 'center',
   },
 });

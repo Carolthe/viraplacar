@@ -17,11 +17,12 @@ export default function CardOpcoes({ titulo, imagem, onPress }) {
 
 const styles = StyleSheet.create({
   container: {
+    marginBottom: 10,
   },
 
   card: {
-    height: 140,
-    width: 115,
+    height: 130,
+    width: 110,
     backgroundColor: '#1f2937',
     borderRadius: 18,
 
@@ -43,8 +44,8 @@ const styles = StyleSheet.create({
   },
 
   image: {
-    width: 40,
-    height: 40,
+    width: 30,
+    height: 30,
     marginBottom: 12,
     resizeMode: 'contain',
   },
@@ -52,7 +53,6 @@ const styles = StyleSheet.create({
   texto: {
     color: '#f9fafb',
     textAlign: 'center',
-    fontWeight: 'bold',
     fontSize: 14,
   },
 });

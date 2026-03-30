@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
     width,
     height: 270,
     overflow: 'hidden',
-    marginTop: 50,
+    marginTop: 30,
   },
   slider: {
     flexDirection: 'row',

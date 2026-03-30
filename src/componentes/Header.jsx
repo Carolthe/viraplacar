@@ -1,10 +1,18 @@
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 export default function Header() {
+  const navigation = useNavigation()
   return (
     <View style={styles.container}> {/* Lado esquerdo */}
-      <Text style={styles.logo}>ViraPlacar</Text> {/* Lado direito */}
-      <TouchableOpacity style={styles.button}>
+      <View style={styles.containerLogo}>
+        <Image source={require('../assets/bola1.png')} style={styles.image} />
+        <Text style={styles.texto}
+        onPress={()=> navigation.replace('Home')}
+        >MUNDIAL</Text>
+      </View>
+      <TouchableOpacity style={styles.button}
+      onPress={() => navigation.replace('FormularioContato')}>
         <Text style={styles.buttonText}>Entre em Contato</Text>
       </TouchableOpacity>
     </View>);
@@ -12,17 +20,28 @@ export default function Header() {
 
 const styles = StyleSheet.create({
   container: {
-    height: 60,
+    height: 65,
     backgroundColor: '#0f172a',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 15,
+    marginRight: 20,
+    width: 370, //Alterar depos####
   },
-  logo: {
-    color: '#fff',
+  containerLogo: {
+    flexDirection: 'row', 
+    alignItems: 'center',
+    gap: 5,
+    marginLeft: 18,
+  },
+  image: {
+    width: 20,
+    height: 20,
+  },
+  texto: {
+    color: '#d4d2ca',
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: 500,
   },
   button: {
     backgroundColor: '#22c55e',
