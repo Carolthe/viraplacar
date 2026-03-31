@@ -2,39 +2,65 @@ import { View, Text, TextInput, StyleSheet, TouchableOpacity, ScrollView } from 
 import { useState } from 'react';
 import Pagamento from '../componentes/Pagamento';
 import VoltarInicial from '../componentes/VoltarInicial';
+import Toast from 'react-native-toast-message';
 
-export default function FormularioPartida() {
+export default function FormularioAposta() {
   const [nome, setNome] = useState('');
   const [telefone, setTelefone] = useState('');
   const [email, setEmail] = useState('');
   const [time, setTime] = useState('');
+  const [nomePagamento, setNomePagamento] = useState('');
   const [pix, setPix] = useState('');
   const [showTimes, setShowTimes] = useState(false);
-  const [apostaEnviada, setApostaEnviada] = useState(false); // controla se o formulário foi enviado
+  const [apostaEnviada, setApostaEnviada] = useState(false);
 
   const times = ['Brasil', 'Argentina', 'França', 'Alemanha'];
 
   const enviar = () => {
-    if (!nome || !telefone || !time || !pix) {
-      alert('Preencha os campos obrigatórios!');
+    if (!nome || !telefone || !time || !pix || !nomePagamento) {
+      Toast.show({
+        type: 'error',
+        text1: 'Erro',
+        text2: 'Preencha os campos obrigatórios!',
+      });
       return;
     }
-    alert('Aposta enviada!');
 
-    // Limpar os inputs
+    const emailValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (email && !emailValido.test(email)) {
+      Toast.show({
+        type: 'error',
+        text1: 'E-mail inválido',
+        text2: 'Digite um e-mail válido!',
+      });
+      return;
+    }
+
+    Toast.show({
+      type: 'success',
+      text1: 'Jogo Enviado!',
+      // text2: 'Redirecionando... ',
+    });
+
+    // Limpar campos
     setNome('');
     setTelefone('');
     setEmail('');
     setTime('');
     setPix('');
+    setNomePagamento('');
 
-    // Marca que a aposta foi enviada
-    setApostaEnviada(true);
+    // ⏳ Espera 10 segundos antes de mudar de tela
+    setTimeout(() => {
+      setApostaEnviada(true);
+    }, 3000);
   };
 
   return (
     <ScrollView contentContainerStyle={styles.containerPrincipal}>
-      <VoltarInicial/>
+      <VoltarInicial />
+
       {!apostaEnviada ? (
         <View style={styles.container}>
           <Text style={styles.titulo}>Escolher um Time</Text>
@@ -56,7 +82,10 @@ export default function FormularioPartida() {
               style={styles.input}
               keyboardType="phone-pad"
               value={telefone}
-              onChangeText={setTelefone}
+              onChangeText={(text) => {
+                const somenteNumeros = text.replace(/[^0-9]/g, '');
+                setTelefone(somenteNumeros);
+              }}
             />
           </View>
 
@@ -82,6 +111,7 @@ export default function FormularioPartida() {
                 {time || 'Selecione um time'}
               </Text>
             </TouchableOpacity>
+
             {showTimes && (
               <View style={styles.dropdown}>
                 {times.map((item) => (
@@ -99,6 +129,15 @@ export default function FormularioPartida() {
               </View>
             )}
           </View>
+          {/* Nome do cartão */}
+          <View style={styles.campo}>
+            <Text style={styles.label}>Nome que consta no cartão de pagamento (obrigatório)</Text>
+            <TextInput
+              style={styles.input}
+              value={pix}
+              onChangeText={setNomePagamento}
+            />
+          </View>
 
           {/* Pix */}
           <View style={styles.campo}>
@@ -109,6 +148,7 @@ export default function FormularioPartida() {
               onChangeText={setPix}
             />
           </View>
+                    <Text style={styles.aviso}>Aviso: Digite todos os dados corretos </Text>
 
           {/* Botão */}
           <TouchableOpacity style={styles.botao} onPress={enviar}>
@@ -116,9 +156,11 @@ export default function FormularioPartida() {
           </TouchableOpacity>
         </View>
       ) : (
-        // Mostrar Pagamento no lugar do formulário
         <Pagamento />
       )}
+
+      {/* 🔥 Toast dentro do formulário */}
+      <Toast />
     </ScrollView>
   );
 }
@@ -143,7 +185,7 @@ const styles = StyleSheet.create({
   titulo: {
     color: '#fff',
     fontSize: 24,
-    fontWeight: 500,
+    fontWeight: '500',
     marginBottom: 20,
     textAlign: 'center',
   },
@@ -191,4 +233,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 16,
   },
+   aviso: {
+    color: 'red',
+    fontSize: 15,
+  }
 });

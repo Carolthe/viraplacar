@@ -9,7 +9,7 @@ export default function AlertPagamentoFeito() {
         Guarde o comprovante do seu banco.
       </Text>
 
-      <Text style={styles.texto}>
+      <Text style={styles.texto2}>
         Caso você seja o ganhador, o valor será enviado 
         para o Pix cadastrado.
       </Text>
@@ -19,14 +19,13 @@ export default function AlertPagamentoFeito() {
       <Text style={styles.footer}>
         Mundial dos Jogos agradece pela sua participação.
       </Text>
-
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    width: '90%',
+    width: '98%',
     backgroundColor: '#111827', // mesmo fundo
     borderRadius: 16,
     padding: 20,
@@ -41,6 +40,14 @@ const styles = StyleSheet.create({
   },
 
   texto: {
+    color: '#ffffff', // mesmo cinza
+    fontSize: 17,
+    marginBottom: 10,
+    lineHeight: 20,
+    fontWeight: 500,
+    textAlign: 'left',
+  },
+    texto2: {
     color: '#9ca3af', // mesmo cinza
     fontSize: 16,
     marginBottom: 10,

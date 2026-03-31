@@ -2,6 +2,7 @@ import { View, Text, TextInput, StyleSheet, TouchableOpacity, ScrollView } from 
 import { useState } from 'react';
 import Pagamento from '../componentes/Pagamento';
 import VoltarInicial from '../componentes/VoltarInicial';
+import Toast from 'react-native-toast-message';
 
 export default function FormularioAposta() {
   const [nome, setNome] = useState('');
@@ -12,11 +13,12 @@ export default function FormularioAposta() {
   const [palmeiras, setPalmeiras] = useState('');
 
   const [pix, setPix] = useState('');
+  const [nomePagamento, setNomePagamento] = useState('')
   const [apostaEnviada, setApostaEnviada] = useState(false);
 
   const [inputAtivo, setInputAtivo] = useState(null);
 
-  // Validação de números de 0 a 10
+  // Validar placar (0 a 10)
   const validarNumero = (text, setter) => {
     let numero = text.replace(/[^0-9]/g, '');
     if (numero === '') {
@@ -28,26 +30,49 @@ export default function FormularioAposta() {
     setter(String(valor));
   };
 
-  // Verifica se todos os campos obrigatórios estão preenchidos
   const camposPreenchidos = () => {
-    return nome && telefone && corinthians !== '' && palmeiras !== '' && pix;
+    return nome && telefone && corinthians !== '' && palmeiras !== '' && pix && nomePagamento !== '';
   };
 
   const enviar = () => {
     if (!camposPreenchidos()) {
-      alert('Preencha os campos obrigatórios!');
+      Toast.show({
+        type: 'error',
+        text1: 'Erro',
+        text2: 'Preencha os campos obrigatórios!',
+      });
       return;
     }
 
-    alert(`Aposta enviada!\nCorinthians ${corinthians} x ${palmeiras} Palmeiras`);
+    const emailValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+    if (email && !emailValido.test(email)) {
+      Toast.show({
+        type: 'error',
+        text1: 'E-mail inválido',
+        // text2: 'Digite um e-mail válido!',
+      });
+      return;
+    }
+
+    Toast.show({
+      type: 'success',
+      text1: 'Jogo Enviado!',
+      // text2: `Corinthians ${corinthians} x ${palmeiras} Palmeiras\nRedirecionando...`,
+    });
+
+    // limpar campos
     setNome('');
     setTelefone('');
     setEmail('');
     setCorinthians('');
     setPalmeiras('');
     setPix('');
-    setApostaEnviada(true);
+
+    // ⏳ delay de 10 segundos
+    setTimeout(() => {
+      setApostaEnviada(true);
+    }, 2000);
   };
 
   return (
@@ -79,7 +104,10 @@ export default function FormularioAposta() {
               value={telefone}
               onFocus={() => setInputAtivo('telefone')}
               onBlur={() => setInputAtivo(null)}
-              onChangeText={setTelefone}
+              onChangeText={(text) => {
+                const somenteNumeros = text.replace(/[^0-9]/g, '');
+                setTelefone(somenteNumeros);
+              }}
             />
           </View>
 
@@ -98,10 +126,9 @@ export default function FormularioAposta() {
 
           {/* Placar */}
           <View style={styles.campo}>
-            <Text style={styles.label}>Placar do Jogo (0 a 10)</Text>
+            <Text style={styles.label}>Placar do Jogo (obrigatório)</Text>
             <View style={{ flexDirection: 'row', gap: 10 }}>
-              
-              {/* Corinthians */}
+
               <View style={{ flex: 1 }}>
                 <Text style={styles.label}>Corinthians</Text>
                 <TextInput
@@ -117,7 +144,6 @@ export default function FormularioAposta() {
                 />
               </View>
 
-              {/* Palmeiras */}
               <View style={{ flex: 1 }}>
                 <Text style={styles.label}>Palmeiras</Text>
                 <TextInput
@@ -135,6 +161,15 @@ export default function FormularioAposta() {
 
             </View>
           </View>
+          {/* Nome do cartão */}
+          <View style={styles.campo}>
+            <Text style={styles.label}>Nome que consta no cartão de pagamento (obrigatório)</Text>
+            <TextInput
+              style={styles.input}
+              value={pix}
+              onChangeText={setNomePagamento}
+            />
+          </View>
 
           {/* Pix */}
           <View style={styles.campo}>
@@ -147,6 +182,7 @@ export default function FormularioAposta() {
               onChangeText={setPix}
             />
           </View>
+          <Text style={styles.aviso}>Aviso: Digite todos os dados corretos </Text>
 
           {/* Botão */}
           <TouchableOpacity
@@ -160,6 +196,9 @@ export default function FormularioAposta() {
       ) : (
         <Pagamento />
       )}
+
+      {/* 🔥 Toast local */}
+      <Toast />
     </ScrollView>
   );
 }
@@ -201,14 +240,11 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 12,
     borderWidth: 2,
-    borderColor: '#374151', // cor padrão da borda
+    borderColor: '#374151',
   },
-  // borda dourada "ouro" ao focar, sem sombra
-  inputAtivo: {
-   
-  },
+  inputAtivo: {},
   botao: {
-    backgroundColor: '#22c55e', // mantém verde original
+    backgroundColor: '#22c55e',
     paddingVertical: 14,
     borderRadius: 12,
     marginTop: 10,
@@ -219,4 +255,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 16,
   },
+   aviso: {
+    color: 'red',
+    fontSize: 15,
+  }
 });

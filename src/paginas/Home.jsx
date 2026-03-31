@@ -4,7 +4,6 @@ import CardOpcoes from '../componentes/CardOpcoes';
 import CardOpcoesGrande from '../componentes/CardOpcaoGrande';
 import Header from '../componentes/Header';
 import { useNavigation } from '@react-navigation/native';
-import AlertPagamentoFeito from '../componentes/AlertPagamentoFeito';
 
 export default function Home() {
 
@@ -65,7 +64,6 @@ export default function Home() {
         textoBotao="Jogar"
          onPressBotao={() => navigation.replace('PlacarJogo')}
       />
-      {/* <AlertPagamentoFeito/> */}
     </ScrollView>
   );
 }

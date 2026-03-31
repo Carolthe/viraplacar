@@ -1,17 +1,54 @@
-import React, { useState } from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity, TextInput, Alert, Clipboard } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, Image, StyleSheet, TouchableOpacity, TextInput, Clipboard, Dimensions } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import AlertPagamentoFeito from '../componentes/AlertPagamentoFeito.jsx';
+
+const { width, height } = Dimensions.get('window');
 
 export default function Pagamento() {
     const pixKey = 'AaffAfa55a6s';
-    //const qrCodeImage = require('../assets/qrcode.png'); // Substitua pelo caminho do seu QR code
+    const navigation = useNavigation();
+
+    const [copiado, setCopiado] = useState(false);
+    const [alertAtivo, setAlertAtivo] = useState(false);
+    const [segundosRestantes, setSegundosRestantes] = useState(30 * 60); // 30 minutos em segundos
 
     const copiarPix = () => {
         Clipboard.setString(pixKey);
-        Alert.alert('Pix Copiado!', 'A chave Pix foi copiada para a área de transferência.');
+        setCopiado(true);
+
+        setTimeout(() => setCopiado(false), 2000);
     };
 
     const pagamentoFeito = () => {
-        Alert.alert('Pagamento Confirmado', 'Obrigado! Seu pagamento foi registrado.');
+        setAlertAtivo(true);
+
+        // Redireciona para a tela inicial após 10 segundos
+        setTimeout(() => {
+            setAlertAtivo(false);
+            navigation.navigate('Home'); // coloque o nome correto da tela inicial
+        }, 50000);
+    };
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setSegundosRestantes(prev => {
+                if (prev > 0) return prev - 1;
+                clearInterval(interval);
+                return 0;
+            });
+        }, 1000);
+
+        return () => clearInterval(interval);
+    }, []);
+
+    // Converte segundos em mm:ss
+    const formatarTempo = (s) => {
+        const minutos = Math.floor(s / 60);
+        const segundos = s % 60;
+        const mm = minutos < 10 ? `0${minutos}` : minutos;
+        const ss = segundos < 10 ? `0${segundos}` : segundos;
+        return `${mm}:${ss}`;
     };
 
     return (
@@ -27,13 +64,17 @@ export default function Pagamento() {
                     <TextInput
                         style={styles.inputPix}
                         value={pixKey}
-                        editable={false} // Não permite editar
+                        editable={false}
                     />
                     <TouchableOpacity style={styles.botaoCopiar} onPress={copiarPix}>
-                        <Text style={styles.botaoTexto}>Copiar</Text>
+                        <Text style={styles.botaoTexto}>{copiado ? 'Copiado!' : 'Copiar'}</Text>
                     </TouchableOpacity>
                 </View>
-                <Text style={styles.textoPreo}>Valor: 5,00</Text>
+
+                {/* Temporizador regressivo */}
+                <Text style={styles.text}>Tempo efetivo: {formatarTempo(segundosRestantes)}</Text>
+
+                <Text style={styles.textoPreco}>Valor: 5,00</Text>
 
                 <Text style={styles.text}>Depois de feito o pagamento, clique abaixo:</Text>
 
@@ -41,6 +82,15 @@ export default function Pagamento() {
                     <Text style={styles.botaoTexto}>Já Fiz o Pagamento</Text>
                 </TouchableOpacity>
             </View>
+
+            {/* Overlay do AlertPagamentoFeito */}
+            {alertAtivo && (
+                <View style={styles.overlay}>
+                    <View style={styles.alertContainer}>
+                        <AlertPagamentoFeito />
+                    </View>
+                </View>
+            )}
         </View>
     );
 }
@@ -50,6 +100,7 @@ const styles = StyleSheet.create({
         flex: 1,
         marginTop: 20,
         alignItems: 'center',
+        justifyContent: 'center',
     },
     container: {
         padding: 20,
@@ -97,7 +148,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontSize: 16,
     },
-    textoPreo: {
+    textoPreco: {
         color: '#40e67d',
         fontSize: 17,
         fontWeight: 'bold',
@@ -110,5 +161,23 @@ const styles = StyleSheet.create({
         marginTop: 10,
         width: 300,
         marginBottom: 60,
+    },
+    overlay: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: width,
+        height: height,
+        backgroundColor: 'rgba(0,0,0,0.5)',
+        justifyContent: 'center',
+        alignItems: 'center',
+        zIndex: 999,
+    },
+    alertContainer: {
+        width: width * 0.9,
+        backgroundColor: '#1f2937',
+        borderRadius: 12,
+        padding: 10,
+        alignItems: 'center',
     },
 });
