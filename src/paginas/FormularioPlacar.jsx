@@ -166,7 +166,7 @@ export default function FormularioAposta() {
             <Text style={styles.label}>Nome que consta no cartão de pagamento (obrigatório)</Text>
             <TextInput
               style={styles.input}
-              value={pix}
+              value={nomePagamento}
               onChangeText={setNomePagamento}
             />
           </View>
@@ -232,7 +232,7 @@ const styles = StyleSheet.create({
   label: {
     color: '#e5e7eb',
     marginBottom: 6,
-    fontSize: 14,
+    fontSize: 16,
   },
   input: {
     backgroundColor: '#1e293b',

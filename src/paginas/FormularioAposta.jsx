@@ -20,8 +20,8 @@ export default function FormularioAposta() {
     if (!nome || !telefone || !time || !pix || !nomePagamento) {
       Toast.show({
         type: 'error',
-        text1: 'Preencha os campos obrigatórios!',
-        // text2: 'Preencha os campos obrigatórios!',
+        text1: 'Erro',
+        text2: 'Preencha os campos obrigatórios!',
       });
       return;
     }
@@ -135,7 +135,7 @@ export default function FormularioAposta() {
             <Text style={styles.label}>Nome que consta no cartão de pagamento (obrigatório)</Text>
             <TextInput
               style={styles.input}
-              value={pix}
+              value={nomePagamento}
               onChangeText={setNomePagamento}
             />
           </View>
