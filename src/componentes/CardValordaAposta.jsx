@@ -1,22 +1,24 @@
 import { View, Text, StyleSheet } from "react-native";
 
-export default function CardValordaAposta() {
+export default function CardValordaAposta({valor, textoPremio1, textoPremio2}) {
   return (
     <View style={styles.container}>
       
       <Text style={styles.texto}>
-        O valor do prêmio muda conforme mais pessoas apostam.
+        {/* O valor do prêmio muda conforme mais pessoas apostam. */}
+      {textoPremio1}
       </Text>
 
       <Text style={styles.texto}>
-        Se mais de uma pessoa acertar, o valor do prêmio é dividido entre os vencedores.
+        {/* Se mais de uma pessoa acertar, o valor do prêmio é dividido entre os vencedores. */}
+      {textoPremio2}
       </Text>
 
       <View style={styles.divisor} /> 
 
       <Text style={styles.label}>Valor do Prêmio:</Text>
 
-      <Text style={styles.valor}>R$ 0,00</Text>
+      <Text style={styles.valor}>R$ {valor}</Text>
 
     </View>
   );

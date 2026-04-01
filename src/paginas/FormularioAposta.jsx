@@ -9,19 +9,36 @@ export default function FormularioAposta() {
   const [telefone, setTelefone] = useState('');
   const [email, setEmail] = useState('');
   const [time, setTime] = useState('');
-  const [nomePagamento, setNomePagamento] = useState('')
+  const [nomePagamento, setNomePagamento] = useState('');
   const [pix, setPix] = useState('');
   const [showTimes, setShowTimes] = useState(false);
   const [apostaEnviada, setApostaEnviada] = useState(false);
+  const [gols, setGols] = useState('');
 
   const times = ['Brasil', 'Argentina', 'França', 'Alemanha'];
 
+  // ✅ Função para validar gols (0 a 10)
+  const validarGols = (text) => {
+    let numero = text.replace(/[^0-9]/g, '');
+
+    if (numero === '') {
+      setGols('');
+      return;
+    }
+
+    let valor = parseInt(numero, 10);
+
+    if (valor > 10) valor = 10;
+
+    setGols(String(valor));
+  };
+
   const enviar = () => {
-    if (!nome || !telefone || !time || !pix || !nomePagamento) {
+    if (!nome || !telefone || !time || !pix || !nomePagamento || !gols) {
       Toast.show({
         type: 'error',
         text1: 'Erro',
-        text2: 'Preencha os campos obrigatórios!',
+        text2: 'Preencha todos os campos obrigatórios!',
       });
       return;
     }
@@ -40,7 +57,6 @@ export default function FormularioAposta() {
     Toast.show({
       type: 'success',
       text1: 'Aposta Enviada!',
-      // text2: 'Redirecionando... ',
     });
 
     // Limpar campos
@@ -49,9 +65,9 @@ export default function FormularioAposta() {
     setEmail('');
     setTime('');
     setPix('');
-    setNomePagamento('')
+    setNomePagamento('');
+    setGols('');
 
-    // ⏳ Espera 10 segundos antes de mudar de tela
     setTimeout(() => {
       setApostaEnviada(true);
     }, 2000);
@@ -130,9 +146,27 @@ export default function FormularioAposta() {
             )}
           </View>
 
-           {/* Nome do cartão */}
+          {/* Gols */}
           <View style={styles.campo}>
-            <Text style={styles.label}>Nome que consta no cartão de pagamento (obrigatório)</Text>
+            <Text style={styles.label}>
+              Quantos gols o time vencedor vai fazer? (Obrigatório)
+            </Text>
+            <TextInput
+              style={styles.input}
+              keyboardType="numeric"
+              value={gols}
+              onChangeText={validarGols}
+              placeholder="0 a 10"
+              placeholderTextColor="#9ca3af"
+              maxLength={2}
+            />
+          </View>
+
+          {/* Nome do cartão */}
+          <View style={styles.campo}>
+            <Text style={styles.label}>
+              Nome que consta no cartão de pagamento (obrigatório)
+            </Text>
             <TextInput
               style={styles.input}
               value={nomePagamento}
@@ -149,7 +183,10 @@ export default function FormularioAposta() {
               onChangeText={setPix}
             />
           </View>
-          <Text style={styles.aviso}>Aviso: Digite todos os dados corretos </Text>
+
+          <Text style={styles.aviso}>
+            Aviso: Digite todos os dados corretos
+          </Text>
 
           {/* Botão */}
           <TouchableOpacity style={styles.botao} onPress={enviar}>
@@ -160,7 +197,6 @@ export default function FormularioAposta() {
         <Pagamento />
       )}
 
-      {/* 🔥 Toast dentro do formulário */}
       <Toast />
     </ScrollView>
   );
@@ -237,5 +273,5 @@ const styles = StyleSheet.create({
   aviso: {
     color: 'red',
     fontSize: 15,
-  }
+  },
 });

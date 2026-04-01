@@ -16,7 +16,7 @@ export default function ApostaCampea() {
             style={styles.scrollStyle}>
             <Header />
             <Text style={styles.titulo}>Copa do Mundo </Text>
-            <Text style={styles.descricao}> Escolha quem vai ganhar a copa do mundo</Text>
+            <Text style={styles.descricao}> Escolha quem vai ganhar a copa e o placar do ganhador</Text>
             <Text style={styles.descricao2}>Valor do Jogo:</Text>
             <CardInformativo
             preco="R$ 10,00"
@@ -109,8 +109,11 @@ export default function ApostaCampea() {
                 <CardBandeira nome="Nova Zelandia" imagem={require('../assets/novazelandia.png')} 
                 onPressBotao={() => navigation.replace('FormularioAposta')}/>
             </View>
-                <CardValordaAposta/>
-                <CardDescricaoPremio />
+                <CardValordaAposta 
+                valor="160,00"
+                textoPremio1="O valor do prêmio muda conforme a partida final se aproxima."
+                />
+                {/* <CardDescricaoPremio /> */}
         </ScrollView>
     );
 }

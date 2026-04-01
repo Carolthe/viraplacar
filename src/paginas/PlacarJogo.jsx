@@ -1,10 +1,10 @@
-import { View, Text, StyleSheet, ScrollView, Dimensions, TouchableOpacity } from "react-native";
+import { Text, StyleSheet, ScrollView, Dimensions, TouchableOpacity } from "react-native";
 import Header from "../componentes/Header";
 import CardInformativo from "../componentes/CardInformativo";
 import CardPartida from "../componentes/CardPartida";
 import CardValordaAposta from "../componentes/CardValordaAposta";
 import { useNavigation } from '@react-navigation/native';
-import CardDescricaoPremio from "../componentes/CardDescricaoPremio";
+// import CardDescricaoPremio from "../componentes/CardDescricaoPremio";
 
 const { height: SCREEN_HEIGHT } = Dimensions.get('window'); // pega altura da tela
 
@@ -30,7 +30,7 @@ export default function PlacarJogo() {
             <CardPartida
                 navigation={navigation}
                 matchTime="19:30"
-                matchDate="sábado, 12 agosto"
+                matchDate="Domingo, 31 Maio"
                 //  gradientColors={["#28563e", "#111827"]} // 🔥 custom            
                 teamA={{
                     nome: "Brasil",
@@ -38,8 +38,8 @@ export default function PlacarJogo() {
                 }}
 
                 teamB={{
-                    nome: "Argentina",
-                    imagem: require("../assets/argentina.png"),
+                    nome: "Panamá",
+                    imagem: require("../assets/panama.png"),
                 }}
             />
             {/* Botão */}
@@ -55,11 +55,11 @@ export default function PlacarJogo() {
 
 
             <CardInformativo
-                preco="R$ 5,00"
+                preco="R$ 10,00"
                 texto="(A aposta será valida até começar o jogo)"
                 img={require('../assets/foguete.png')} />
-            <CardValordaAposta />
-            <CardDescricaoPremio />
+            <CardValordaAposta valor="30,00" />
+            {/* <CardDescricaoPremio /> */}
         </ScrollView>
     );
 }

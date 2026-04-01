@@ -24,11 +24,11 @@ export default function Home() {
           onPress={() => navigation.replace('ApostaCampea')}
         />
 
-        <CardOpcoes
+        {/* <CardOpcoes
           titulo="Vencedor da Partida"
           imagem={require('../assets/raio.png')}
           onPress={() => navigation.replace('VencedorPartida')}
-        />
+        /> */}
 
         <CardOpcoes
           titulo="Placar do Jogo"
@@ -47,14 +47,14 @@ export default function Home() {
         onPressBotao={() => navigation.replace('ApostaCampea')}
       />
 
-      <CardOpcoesGrande
+      {/* <CardOpcoesGrande
         imagem={require('../assets/raio.png')}
         titulo="Vencedor da Partida"
         descricao="Quem vai ganhar a partida?"
         textoExtra="Escolha o Time:"
         textoBotao="Jogar"
          onPressBotao={() => navigation.replace('VencedorPartida')}
-      />
+      /> */}
 
       <CardOpcoesGrande
         imagem={require('../assets/foguete.png')}
@@ -88,6 +88,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 20,
-    gap: 10,
+    gap: 25,
   },
 });

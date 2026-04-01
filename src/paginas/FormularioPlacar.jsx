@@ -130,7 +130,7 @@ export default function FormularioAposta() {
             <View style={{ flexDirection: 'row', gap: 10 }}>
 
               <View style={{ flex: 1 }}>
-                <Text style={styles.label}>Corinthians</Text>
+                <Text style={styles.label}>Brasil</Text>
                 <TextInput
                   style={[styles.input, inputAtivo === 'corinthians' && styles.inputAtivo]}
                   keyboardType="numeric"
@@ -145,7 +145,7 @@ export default function FormularioAposta() {
               </View>
 
               <View style={{ flex: 1 }}>
-                <Text style={styles.label}>Palmeiras</Text>
+                <Text style={styles.label}>Panamá</Text>
                 <TextInput
                   style={[styles.input, inputAtivo === 'palmeiras' && styles.inputAtivo]}
                   keyboardType="numeric"
@@ -256,7 +256,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
    aviso: {
-    color: 'red',
+    color: '#ec4545',
     fontSize: 15,
   }
 });
