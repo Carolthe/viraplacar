@@ -70,15 +70,16 @@ const styles = StyleSheet.create({
     backgroundColor: "#080e1a" ,
     padding: 15,
     borderRadius: 16,
-    marginHorizontal: 10,
+    marginHorizontal: 5,
     paddingVertical: 20,
-     borderWidth: 1,
+    borderWidth: 1,
     borderColor: "#2e323d",
+    paddingBottom: 40,
   },
   title: {
     color: "#fff",
     fontSize: 20,
-    fontWeight: "bold",
+    fontWeight: 500,
     marginBottom: 8,
     textAlign: 'center',
   },
@@ -120,5 +121,6 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "#fff",
     fontWeight: "bold",
+    fontSize: 16
   },
 });

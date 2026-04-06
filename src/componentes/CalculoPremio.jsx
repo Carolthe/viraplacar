@@ -81,7 +81,6 @@ export default function CalculoPremio() {
                 keyboardType="numeric"
                 value={valor}
                 onChangeText={setValor}
-                placeholder="100"
                 placeholderTextColor="#666"
             />
 
