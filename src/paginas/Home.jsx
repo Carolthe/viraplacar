@@ -4,6 +4,7 @@ import CardOpcoes from '../componentes/CardOpcoes';
 import CardOpcoesGrande from '../componentes/CardOpcaoGrande';
 import Header from '../componentes/Header';
 import { useNavigation } from '@react-navigation/native';
+import ResumoAposta from '../componentes/ResumoAposta';
 
 export default function Home() {
 
@@ -18,11 +19,11 @@ export default function Home() {
 
       {/* 🔥 Container dos cards pequenos */}
       <View style={styles.containerCards}>
-        <CardOpcoes
+        {/* <CardOpcoes
           titulo="Campeão do Mundo"
           imagem={require('../assets/trofeu.png')}
           onPress={() => navigation.replace('ApostaCampea')}
-        />
+        /> */}
 
         {/* <CardOpcoes
           titulo="Vencedor da Partida"
@@ -30,22 +31,22 @@ export default function Home() {
           onPress={() => navigation.replace('VencedorPartida')}
         /> */}
 
-        <CardOpcoes
+        {/* <CardOpcoes
           titulo="Placar do Jogo"
           imagem={require('../assets/foguete.png')}
           onPress={() => navigation.replace('PlacarJogo')}
-        />
+        /> */}
       </View>
 
       {/* 🔥 Cards grandes */}
-      <CardOpcoesGrande
+      {/* <CardOpcoesGrande
         imagem={require('../assets/trofeu.png')}
         titulo="Campeão da Copa"
         descricao="Quem vai levantar o troféu?"
         textoExtra="Escolha a Seleção:"
         textoBotao="Jogar"
         onPressBotao={() => navigation.replace('ApostaCampea')}
-      />
+      /> */}
 
       {/* <CardOpcoesGrande
         imagem={require('../assets/raio.png')}
@@ -73,13 +74,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingBottom: 100,
     backgroundColor: '#0e0e0e',
+    height: '100vh'
   },
 
   texto: {
     color: 'white',
     fontSize: 24,
-    marginTop: 40,
-    marginBottom: 10,
+    marginTop: 30,
     fontWeight: 'bold',
   },
 
@@ -87,7 +88,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 20,
+    marginTop: 10,
     gap: 25,
   },
 });

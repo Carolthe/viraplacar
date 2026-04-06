@@ -8,6 +8,7 @@ import PlacarJogo from './src/paginas/PlacarJogo';
 import VencedorPartida from './src/paginas/VencedorPartida';
 import FormularioPlacar from './src/paginas/FormularioPlacar';
 import FormularioPartida from './src/paginas/FormularioPartida';
+import PagamentoPix from './src/paginas/PagamentoPix';
 
 
 
@@ -25,7 +26,7 @@ export default function App() {
         <Stack.Screen name="FormularioPlacar" component={FormularioPlacar} />
         <Stack.Screen name="FormularioPartida" component={FormularioPartida} />
         <Stack.Screen name="FormularioContato" component={Contato} />
-
+        <Stack.Screen name="PagamentoPix" component={PagamentoPix} />
       </Stack.Navigator>
     </NavigationContainer>
   );

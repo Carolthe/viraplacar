@@ -27,8 +27,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginRight: 20,
-    width: 370, //Alterar depos####
+    paddingRight: 20,
+    width: '100vw', //Alterar depos####
   },
   containerLogo: {
     flexDirection: 'row', 

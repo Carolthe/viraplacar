@@ -4,6 +4,7 @@ import CardInformativo from "../componentes/CardInformativo";
 import CardPartida from "../componentes/CardPartida";
 import CardValordaAposta from "../componentes/CardValordaAposta";
 import { useNavigation } from '@react-navigation/native';
+import CalculoPremio from "../componentes/CalculoPremio";
 // import CardDescricaoPremio from "../componentes/CardDescricaoPremio";
 
 const { height: SCREEN_HEIGHT } = Dimensions.get('window'); // pega altura da tela
@@ -18,8 +19,6 @@ export default function PlacarJogo() {
             {/* <Text style={styles.titulo}>Acerte o Placar </Text> */}
 
             <Text style={styles.descricao3} >Acerte o Placar Exato do Jogo:</Text>
-
-
             {/* <View style={styles.grid}>
                 <CardBandeira nome="Estados Unidos" imagem={require('../assets/eua.png')}
                     onPressBotao={() => navigation.replace('FormularioAposta')} />
@@ -43,7 +42,7 @@ export default function PlacarJogo() {
                 }}
             />
             {/* Botão */}
-            <TouchableOpacity
+            {/* <TouchableOpacity
                 style={styles.botao}
                 activeOpacity={0.85}
                 onPress={() => navigation.replace('FormularioPlacar')} // <-- CORRETO aqui
@@ -51,22 +50,24 @@ export default function PlacarJogo() {
                 <Text style={styles.botaoTexto}>Jogar</Text>
             </TouchableOpacity>
             
-            <Text style={styles.descricao2}>Valor do Jogo:</Text>
+            <Text style={styles.descricao2}>Valor do Jogo:</Text> */}
 
-
+            {/* 
             <CardInformativo
                 preco="R$ 10,00"
                 texto="(A aposta será valida até começar o jogo)"
                 img={require('../assets/foguete.png')} />
-            <CardValordaAposta valor="30,00" />
+            <CardValordaAposta valor="30,00" /> */}
             {/* <CardDescricaoPremio /> */}
+            <CalculoPremio />
+
         </ScrollView>
     );
 }
 
 const styles = StyleSheet.create({
     scrollStyle: {
-        backgroundColor: '#0e0e0e', // fundo preto que ocupa toda a tela
+       backgroundColor: '#0e0e0e', // fundo preto que ocupa toda a tela
     },
 
     scrollContainer: {
@@ -100,7 +101,7 @@ const styles = StyleSheet.create({
     },
     descricao3: {
         color: "white",
-        marginTop: 10,
+        marginTop: 15,
         fontSize: 20,
         fontWeight: 500,
         textAlign: 'center',
@@ -134,4 +135,4 @@ const styles = StyleSheet.create({
         marginBottom: 30,
         alignItems: 'center'
     },
-});
+})

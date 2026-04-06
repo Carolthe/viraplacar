@@ -1,0 +1,124 @@
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+} from "react-native";
+
+export default function CardFormularioPix() {
+  const [pixKey, setPixKey] = useState("");
+  const [name, setName] = useState("");
+
+  const isFormValid = pixKey.trim() !== "" && name.trim() !== "";
+
+  const handleGenerate = () => {
+    if (!isFormValid) return;
+
+    console.log("PIX Key:", pixKey);
+    console.log("Nome:", name);
+  };
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>Dados para Pagamento</Text>
+      <Text style={styles.subtitle}>
+        Informe seus dados para gerar o código PIX
+      </Text>
+
+      <Text style={styles.label}>Sua Chave PIX</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="CPF, Email, Telefone ou chave aleatória"
+        placeholderTextColor="#aaa"
+        value={pixKey}
+        onChangeText={setPixKey}
+      />
+      <Text style={styles.helper}>
+        Chave PIX da conta que fará o pagamento
+      </Text>
+
+      <Text style={styles.label}>Nome do Titular</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="Nome como consta no cartão/conta"
+        placeholderTextColor="#aaa"
+        value={name}
+        onChangeText={setName}
+      />
+      <Text style={styles.helper}>
+        Nome que consta no cartão/conta que fará o pagamento
+      </Text>
+
+      <TouchableOpacity
+        style={[
+          styles.button,
+          !isFormValid && styles.buttonDisabled,
+        ]}
+        onPress={handleGenerate}
+        disabled={!isFormValid}
+      >
+        <Text style={styles.buttonText}>Gerar QR Code PIX</Text>
+      </TouchableOpacity>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: "#080e1a" ,
+    padding: 15,
+    borderRadius: 16,
+    marginHorizontal: 10,
+    paddingVertical: 20,
+     borderWidth: 1,
+    borderColor: "#2e323d",
+  },
+  title: {
+    color: "#fff",
+    fontSize: 20,
+    fontWeight: "bold",
+    marginBottom: 8,
+    textAlign: 'center',
+  },
+  subtitle: {
+    color: "#ccc",
+    marginBottom: 10,
+    fontSize: 16,
+  },
+  label: {
+    color: "#fff",
+    fontWeight: "600",
+    marginTop: 10,
+    fontSize: 16,
+  },
+  input: {
+    backgroundColor: "#0f1d2a",
+    color: "#fff",
+    borderRadius: 10,
+    padding: 15,
+    marginTop: 8,
+    fontSize: 15,
+  },
+  helper: {
+    color: "#aaa",
+    fontSize: 15,
+    marginTop: 4,
+  },
+  button: {
+    backgroundColor: "#2ecc71",
+    padding: 15,
+    borderRadius: 12,
+    alignItems: "center",
+    marginTop: 20,
+  },
+//   buttonDisabled: {
+//     backgroundColor: "#1e7f4f",
+//     opacity: 0.6,
+//   },
+  buttonText: {
+    color: "#fff",
+    fontWeight: "bold",
+  },
+});
