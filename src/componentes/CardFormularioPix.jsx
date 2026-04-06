@@ -7,7 +7,7 @@ import {
   StyleSheet,
 } from "react-native";
 
-export default function CardFormularioPix() {
+export default function CardFormularioPix({ onGerar }) {
   const [pixKey, setPixKey] = useState("");
   const [name, setName] = useState("");
 
@@ -15,6 +15,7 @@ export default function CardFormularioPix() {
 
   const handleGenerate = () => {
     if (!isFormValid) return;
+    onGerar();
 
     console.log("PIX Key:", pixKey);
     console.log("Nome:", name);
