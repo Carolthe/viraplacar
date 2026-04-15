@@ -1,78 +1,119 @@
-import { Text, StyleSheet, ScrollView, Dimensions, TouchableOpacity } from "react-native";
+import { Text, StyleSheet, ScrollView, Dimensions, View, ActivityIndicator } from "react-native";
+import { useEffect, useState } from "react";
 import Header from "../componentes/Header";
-import CardInformativo from "../componentes/CardInformativo";
 import CardPartida from "../componentes/CardPartida";
-import CardValordaAposta from "../componentes/CardValordaAposta";
-import { useNavigation } from '@react-navigation/native';
 import CalculoPremio from "../componentes/CalculoPremio";
-// import CardDescricaoPremio from "../componentes/CardDescricaoPremio";
+import { useNavigation } from "@react-navigation/native";
+import api from "../services/api";
 
-const { height: SCREEN_HEIGHT } = Dimensions.get('window'); // pega altura da tela
+const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 
 export default function PlacarJogo() {
-    const navigation = useNavigation();
+  const navigation = useNavigation();
+
+  const [jogos, setJogos] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // ================================
+  // 🔥 BUSCAR JOGOS DO BACKEND
+  // ================================
+  useEffect(() => {
+    async function loadJogos() {
+      try {
+        const response = await api.get("/apostas/jogos");
+        setJogos(response.data);
+      } catch (error) {
+        console.log("Erro ao buscar jogos:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadJogos();
+  }, []);
+
+  // ================================
+  // 🔥 FORMATAR DATA
+  // ================================
+  function formatarData(data) {
+    const date = new Date(data);
+
+    return date.toLocaleDateString("pt-BR", {
+      weekday: "long",
+      day: "2-digit",
+      month: "long",
+    });
+  }
+  function formatarHora(hora) {
+  if (!hora) return "";
+
+  return hora.slice(0, 5); // "18:30:00" → "18:30"
+}
+
+  // ================================
+  // 🔥 LOADING
+  // ================================
+  if (loading) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: "#0e0e0e" }}>
+        <ActivityIndicator size="large" color="#fff" />
+      </View>
+    );
+  }
+
     return (
         <ScrollView
             contentContainerStyle={styles.scrollContainer}
             style={styles.scrollStyle}>
             <Header />
-            {/* <Text style={styles.titulo}>Acerte o Placar </Text> */}
 
-            <Text style={styles.descricao3} >Acerte o Placar Exato do Jogo:</Text>
-            {/* <View style={styles.grid}>
-                <CardBandeira nome="Estados Unidos" imagem={require('../assets/eua.png')}
-                    onPressBotao={() => navigation.replace('FormularioAposta')} />
-                    <Image source={require('../assets/xx.png')}/>
-                <CardBandeira nome="Mexíco" imagem={require('../assets/mexico.png')}
-                    onPressBotao={() => navigation.replace('FormularioAposta')} />
-            </View> */}
-            <CardPartida
-                navigation={navigation}
-                matchTime="19:30"
-                matchDate="Domingo, 31 Maio"
-                //  gradientColors={["#28563e", "#111827"]} // 🔥 custom            
-                teamA={{
-                    nome: "Brasil",
-                    imagem: require("../assets/brasil.png"),
-                }}
+            <Text style={styles.descricao3} >Acerte o Placar Exato</Text>
 
-                teamB={{
-                    nome: "Panamá",
-                    imagem: require("../assets/panama.png"),
-                }}
-            />
-            {/* Botão */}
-            {/* <TouchableOpacity
-                style={styles.botao}
-                activeOpacity={0.85}
-                onPress={() => navigation.replace('FormularioPlacar')} // <-- CORRETO aqui
-            >
-                <Text style={styles.botaoTexto}>Jogar</Text>
-            </TouchableOpacity>
-            
-            <Text style={styles.descricao2}>Valor do Jogo:</Text> */}
+        <Text style={styles.descricaoCampeonato}>Brasileirão 2026:</Text>
 
-            {/* 
-            <CardInformativo
-                preco="R$ 10,00"
-                texto="(A aposta será valida até começar o jogo)"
-                img={require('../assets/foguete.png')} />
-            <CardValordaAposta valor="30,00" /> */}
-            {/* <CardDescricaoPremio /> */}
-            <CalculoPremio />
+            {/* ================================
+          🔥 MAP DOS JOGOS (DINÂMICO)
+      ================================ */}
+      {jogos.map((jogo) => (
+        <View key={jogo.id_jogo} style={{ marginBottom: 25 }}>
 
-        </ScrollView>
+          <CardPartida
+            navigation={navigation}
+            matchTime={formatarHora(jogo.hora_jogo)}
+            matchDate={formatarData(jogo.data_jogo)}
+            teamA={{
+              nome: jogo.nome_time1,
+              imagem: { uri: jogo.img_time1 }
+            }}
+            teamB={{
+              nome: jogo.nome_time2,
+              imagem: { uri: jogo.img_time2 }
+            }}
+          />
+        
+          <CalculoPremio
+            id_jogo={jogo.id_jogo}
+            sigla1={jogo.nome_time1.slice(0, 3).toUpperCase()}
+            sigla2={jogo.nome_time2.slice(0, 3).toUpperCase()}
+            nomeTime1={jogo.nome_time1}
+            nomeTime2={jogo.nome_time2}
+            corInput="#641e8a"
+          />
+
+        </View>
+      ))}
+    </ScrollView>
     );
 }
 
 const styles = StyleSheet.create({
     scrollStyle: {
-       backgroundColor: '#0e0e0e', // fundo preto que ocupa toda a tela
+        backgroundColor: '#0e0e0e', // fundo preto que ocupa toda a tela
     },
 
     scrollContainer: {
         minHeight: SCREEN_HEIGHT, // garante que o conteúdo ocupe toda a altura
-        alignItems: 'center',
+       alignItems: "stretch",
         paddingBottom: 50,
     },
 
@@ -101,11 +142,18 @@ const styles = StyleSheet.create({
     },
     descricao3: {
         color: "white",
-        marginTop: 15,
-        fontSize: 20,
-        fontWeight: 500,
+        marginTop: 20,
+        fontSize: 23,
+        fontWeight: 'bold',
         textAlign: 'center',
         paddingHorizontal: 60,
+    },
+    descricaoCampeonato: {
+        color: 'white',
+        fontWeight: 'bold',
+        fontSize: 20,
+        paddingTop: 15,
+        textAlign: 'center'
     },
     botao: {
         backgroundColor: '#22c55e',

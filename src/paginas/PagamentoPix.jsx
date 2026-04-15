@@ -4,17 +4,23 @@ import ResumoAposta from "../componentes/ResumoAposta";
 import Header from "../componentes/Header";
 import CardFormularioPix from "../componentes/CardFormularioPix";
 import CardQrCode from "../componentes/CardQrCode";
+import VoltarAposta from "../componentes/VoltarAposta";
 
 export default function PagamentoPix({ route }) {
-  const { jogo, placar, valor, premio } = route.params;
+  const params = route?.params || {};
+
+  const { jogo, placar, valor, premio = 0, id_aposta } = route.params || {};
 
   const [mostrarQr, setMostrarQr] = useState(false);
+  console.log("PARAMS RECEBIDOS:", route.params);
+  
 
   return (
     <ScrollView style={styles.screen}>
       <Header />
 
       <View style={styles.container}>
+        <VoltarAposta/>
         <Text style={styles.title}>Pagamento via Pix</Text>
 
         <ResumoAposta
@@ -24,9 +30,11 @@ export default function PagamentoPix({ route }) {
           premio={premio}
         />
 
-        {/* 👇 Aqui está a mágica */}
         {!mostrarQr ? (
-          <CardFormularioPix onGerar={() => setMostrarQr(true)} />
+          <CardFormularioPix
+            id_aposta={id_aposta}
+            onGerar={() => setMostrarQr(true)} // 🔥 ESSENCIAL
+          />
         ) : (
           <CardQrCode valor={valor} />
         )}

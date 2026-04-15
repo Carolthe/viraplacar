@@ -12,7 +12,7 @@ export default function CardPartida({
   teamB,
   matchTime,
   matchDate,
-  gradientColors = ["#1e3a8a", "#111827"], // default
+  gradientColors = ["#641e8a", "#111827"], // default
 }) {
   return (
     <View style={styles.wrapper}>
@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
   },
 
   date: {
-    fontSize: 14,
+    fontSize: 16,
     color: "#d1d5db",
     marginTop: 2,
     textTransform: "capitalize",

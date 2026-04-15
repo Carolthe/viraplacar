@@ -25,7 +25,7 @@ export default function ResumoAposta({ jogo, placar, valor, premio }) {
       </View>
 
       <View style={styles.row}>
-        <Text style={styles.label}>Prêmio Potencial:</Text>
+        <Text style={styles.label}>Prêmio:</Text>
         <Text style={styles.premio}>R$ {premio}</Text>
       </View>
     </View>

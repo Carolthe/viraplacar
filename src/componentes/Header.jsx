@@ -1,23 +1,29 @@
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import VoltarInicial from './VoltarInicial';
 
 export default function Header() {
   const navigation = useNavigation()
   return (
-    <View style={styles.container}> {/* Lado esquerdo */}
+    
+    <View style={styles.container}> 
       <View style={styles.containerLogo}>
-        <VoltarInicial/>
         <Image source={require('../assets/bola1.png')} style={styles.image} />
         <Text style={styles.texto}
         onPress={()=> navigation.replace('Home')}
         >MUNDIAL</Text>
       </View>
-      <TouchableOpacity style={styles.button}
-      onPress={() => navigation.replace('FormularioContato')}>
-        <Text style={styles.buttonText}>Entre em Contato</Text>
+      <View style={styles.containerBotton}>
+      <TouchableOpacity style={styles.button1}
+      onPress={() => navigation.replace('Login')}>
+        <Text style={styles.buttonText}>Entrar</Text>
       </TouchableOpacity>
-    </View>);
+      <TouchableOpacity style={styles.button}
+      onPress={() => navigation.replace('CriarConta')}>
+        <Text style={styles.buttonText}>Criar Conta</Text>
+      </TouchableOpacity>
+      </View>
+    </View>
+    );
 }
 
 const styles = StyleSheet.create({
@@ -27,8 +33,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingRight: 20,
-    width: '100vw', //Alterar depos####
+    paddingHorizontal: 23,
+    width: '100%', //Alterar depos####
   },
   containerLogo: {
     flexDirection: 'row', 
@@ -44,12 +50,25 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 500,
   },
+  button1: {
+    paddingVertical: 10,
+    paddingHorizontal: 10,
+    borderRadius: 8,
+    borderWidth: 2,
+    borderColor: '#ffffff',
+  },
   button: {
     backgroundColor: '#22c55e',
     paddingVertical: 10,
-    paddingHorizontal: 15,
+    paddingHorizontal: 10,
     borderRadius: 8,
+  
   },
+  containerBotton: {
+    flexDirection: 'row',
+    gap: 10,
+  },
+  
   buttonText: {
     color: '#fff',
     fontWeight: '600',

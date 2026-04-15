@@ -1,26 +1,40 @@
-import React, { useState } from "react";
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  StyleSheet,
-} from "react-native";
+import { useState } from "react";
+import { View, Text, TextInput, TouchableOpacity, StyleSheet } from "react-native";
+import api from "../services/api";
 
-export default function CardFormularioPix({ onGerar }) {
+export default function CardFormularioPix({ id_aposta, onGerar }) {
   const [pixKey, setPixKey] = useState("");
   const [name, setName] = useState("");
 
   const isFormValid = pixKey.trim() !== "" && name.trim() !== "";
 
-  const handleGenerate = () => {
+  const handleGenerate = async () => {
     if (!isFormValid) return;
-    onGerar();
 
-    console.log("PIX Key:", pixKey);
-    console.log("Nome:", name);
+    try {
+      console.log("ID APOSTA:", id_aposta);
+      console.log("PIX:", pixKey);
+      console.log("NOME:", name);
+      await api.post(
+        "/apostas/pagar",
+        {
+          id_aposta: id_aposta, 
+          pix_pagamento: pixKey,
+          titular_banco: name,
+        },
+        { withCredentials: true }
+      );
+
+      console.log("PIX Key:", pixKey);
+      console.log("Nome:", name);
+
+      // 🔥 MOSTRAR QR CODE
+      onGerar && onGerar();
+
+    } catch (error) {
+      console.error(error);
+    }
   };
-
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Dados para Pagamento</Text>
@@ -68,7 +82,7 @@ export default function CardFormularioPix({ onGerar }) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#080e1a" ,
+    backgroundColor: "#080e1a",
     padding: 15,
     borderRadius: 16,
     marginHorizontal: 5,
@@ -115,10 +129,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 20,
   },
-//   buttonDisabled: {
-//     backgroundColor: "#1e7f4f",
-//     opacity: 0.6,
-//   },
+  //   buttonDisabled: {
+  //     backgroundColor: "#1e7f4f",
+  //     opacity: 0.6,
+  //   },
   buttonText: {
     color: "#fff",
     fontWeight: "bold",

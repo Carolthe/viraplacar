@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -9,30 +9,61 @@ import {
 } from "react-native";
 import * as Clipboard from "expo-clipboard";
 import { Ionicons } from "@expo/vector-icons";
+import api from "../services/api";
+import CardAlertPagamento from "./CardAlertPagamento";
 
 export default function CardPixPagamento({ valor }) {
-  const pixKey = "00020126456789";
-
   const [copiado, setCopiado] = useState(false);
+  const [pixKey, setPixKey] = useState("");
+  const [qrCodeImage, setQrCodeImage] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [mostrarAlerta, setMostrarAlerta] = useState(false);
+ const [processando, setProcessando] = useState(false);
+const [confirmado, setConfirmado] = useState(false);
+
   const fadeAnim = useState(new Animated.Value(0))[0];
 
-  const qrCodeImage = {
-    uri: "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=PIX123",
-  };
+  useEffect(() => {
+    async function carregarPix() {
+      try {
+        const response = await api.get("/apostas/qrcode-pix");
+
+        const data = response.data;
+
+        console.log("DATA:", data);
+
+        if (data?.pix_pagamento) {
+          setPixKey(data.pix_pagamento);
+        }
+
+        if (data?.imagem && typeof data.imagem === "string") {
+          const cleanUrl = data.imagem.trim();
+
+          setQrCodeImage({ uri: cleanUrl });
+        } else {
+          console.log("Imagem inválida:", data?.imagem);
+        }
+      } catch (error) {
+        console.log("Erro ao buscar PIX:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    carregarPix();
+  }, []);
 
   const handleCopy = async () => {
     await Clipboard.setStringAsync(pixKey);
 
     setCopiado(true);
 
-    // animação aparecer
     Animated.timing(fadeAnim, {
       toValue: 1,
       duration: 200,
       useNativeDriver: true,
     }).start();
 
-    // desaparecer depois
     setTimeout(() => {
       Animated.timing(fadeAnim, {
         toValue: 0,
@@ -44,15 +75,40 @@ export default function CardPixPagamento({ valor }) {
     }, 1800);
   };
 
-  const handleConfirm = () => {
-    console.log("Pagamento confirmado");
-  };
+
+
+const handleConfirm = () => {
+  setProcessando(true);
+
+  setTimeout(() => {
+    setProcessando(false);
+    setMostrarAlerta(true);
+    setConfirmado(true);
+  }, 5000);
+};
+
+  // 🔥 LOADING CORRETO
+  if (loading) {
+    return (
+      <View style={styles.card}>
+        <Text style={{ color: "#fff" }}>Carregando PIX...</Text>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.card}>
       {/* QR CODE */}
       <View style={styles.qrContainer}>
-        <Image source={qrCodeImage} style={styles.qrImage} />
+        {qrCodeImage ? (
+          <Image
+            source={qrCodeImage}
+            style={styles.qrImage}
+            onError={(e) => console.log("ERRO IMG:", e.nativeEvent.error)}
+          />
+        ) : (
+          <Text style={{ color: "#000" }}>QR Code não encontrado</Text>
+        )}
       </View>
 
       {/* VALOR */}
@@ -83,19 +139,26 @@ export default function CardPixPagamento({ valor }) {
         </TouchableOpacity>
       </View>
 
-      {/* FEEDBACK ANIMADO */}
+      {/* FEEDBACK */}
       <Animated.View style={{ opacity: fadeAnim }}>
         <Text style={styles.copiadoText}>Código copiado</Text>
       </Animated.View>
 
-      {/* BOTÃO CONFIRMAR */}
+      {/* BOTÃO */}
       <TouchableOpacity
         style={styles.confirmButton}
         onPress={handleConfirm}
         activeOpacity={0.8}
       >
-        <Text style={styles.confirmText}>Confirmar Pagamento</Text>
+      <Text style={styles.confirmText}>
+  {confirmado
+    ? "Obrigada!"
+    : processando
+    ? "Processando..."
+    : "Confirmar Pagamento"}
+</Text>
       </TouchableOpacity>
+      {mostrarAlerta && <CardAlertPagamento />}
     </View>
   );
 }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   View,
   Text,
@@ -6,16 +6,22 @@ import {
   TouchableOpacity,
   StyleSheet,
   ActivityIndicator,
-  Alert,
+  Alert
 } from "react-native";
+import api from "../services/api";
+import VoltarAposta from "../componentes/VoltarAposta";
 
-export default function LoginScreen({ navigation }) {
-  const [email, setEmail] = useState("");
+export default function Login({ navigation, route }) {
+
+  const params = route?.params;
+
+  const [nome, setNome] = useState(""); // ✅ backend usa nome
   const [senha, setSenha] = useState("");
   const [loading, setLoading] = useState(false);
 
+
   const handleLogin = async () => {
-    if (!email || !senha) {
+    if (!nome || !senha) {
       Alert.alert("Erro", "Preencha todos os campos");
       return;
     }
@@ -23,26 +29,49 @@ export default function LoginScreen({ navigation }) {
     try {
       setLoading(true);
 
-      const response = await fetch("https://SEU_BACKEND/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, senha }),
-      });
+      const response = await api.post(
+        "/usuarios/login",
+        { nome, senha },
+        { withCredentials: true }
+      );
 
-      const data = await response.json();
+      const data = response.data;
 
-      if (!response.ok) {
-        throw new Error(data.message || "Erro ao fazer login");
+      Alert.alert("Sucesso", data.message || "Login realizado!");
+
+      // if (params) {
+      //   // 🔥 cria aposta e GUARDA a resposta
+      //   const apostaResponse = await api.post(
+      //     "/apostas/criar",
+      //     {
+      //       placar1: params.placar.split(" x ")[0],
+      //       placar2: params.placar.split(" x ")[1],
+      //       valor: parseFloat(params.valor),
+      //     },
+      //     { withCredentials: true }
+      //   );
+
+      //   // 🔥 pega o ID corretamente
+      //   const id_aposta = apostaResponse.data.id_aposta;
+
+      //   console.log("ID APOSTA CRIADA:", id_aposta);
+
+        // 🔥 envia corretamente para próxima tela
+        navigation.navigate("Home", {
+          ...params,
+          // id_aposta,
+        });
+
+        console.log("PARAMS NO LOGIN:", params);
+
       }
+     catch (error) {
+      console.error(error);
 
-      Alert.alert("Sucesso", "Login realizado!");
-
-      // navigation.navigate("Home");
-
-    } catch (error) {
-      Alert.alert("Erro", error.message);
+      Alert.alert(
+        "Erro",
+        error.response?.data?.error || "Erro ao fazer login"
+      );
     } finally {
       setLoading(false);
     }
@@ -50,20 +79,20 @@ export default function LoginScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
+      <VoltarAposta/>
       <Text style={styles.title}>Entrar</Text>
-
       <Text style={styles.subtitle}>
         Digite suas credenciais para acessar sua conta
       </Text>
 
-      {/* Email */}
-      <Text style={styles.label}>Email</Text>
+      {/* Nome */}
+      <Text style={styles.label}>Nome</Text>
       <TextInput
         style={styles.input}
-        placeholder="seu@email.com"
+        placeholder="Seu nome"
         placeholderTextColor="#aaa"
-        value={email}
-        onChangeText={setEmail}
+        value={nome}
+        onChangeText={setNome}
       />
 
       {/* Senha */}
@@ -78,30 +107,32 @@ export default function LoginScreen({ navigation }) {
       />
 
       {/* Esqueceu senha */}
-      <TouchableOpacity
-        onPress={() => navigation?.navigate("RecoverPassword")}
-      >
+      <TouchableOpacity onPress={() => navigation?.navigate("RecuperarSenha")}>
         <Text style={styles.forgot}>Esqueceu sua senha?</Text>
       </TouchableOpacity>
 
       {/* Botão */}
       <TouchableOpacity style={styles.button} onPress={handleLogin}>
         {loading ? (
-          <ActivityIndicator />
+          <ActivityIndicator color="#fff" />
         ) : (
           <Text style={styles.buttonText}>Entrar</Text>
         )}
       </TouchableOpacity>
 
       {/* Criar conta */}
-      <TouchableOpacity
-        onPress={() => navigation?.navigate("Register")}
-      >
+      <TouchableOpacity>
         <Text style={styles.register}>
           Não tem uma conta?{" "}
-          <Text style={styles.registerHighlight}>Criar conta</Text>
+          <Text
+            onPress={() => navigation.replace("CriarConta")}
+            style={styles.registerHighlight}
+          >
+            Criar conta
+          </Text>
         </Text>
       </TouchableOpacity>
+      <Text style={styles.contatoPlataforma}>Entrar em Contato com a Plataforma</Text>
     </View>
   );
 }
@@ -109,8 +140,8 @@ export default function LoginScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#071a12",
-    justifyContent: "center",
+    backgroundColor: '#0e0e0e',
+    paddingTop: 20,
     padding: 20,
   },
 
@@ -119,6 +150,7 @@ const styles = StyleSheet.create({
     fontSize: 32,
     fontWeight: "bold",
     textAlign: "center",
+    marginTop: 50,
   },
 
   subtitle: {
@@ -126,21 +158,23 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginBottom: 30,
     marginTop: 10,
+    fontSize: 15,
   },
 
   label: {
     color: "#fff",
     marginBottom: 5,
     marginTop: 10,
+    fontSize: 16,
   },
 
   input: {
-    backgroundColor: "#0f2a20",
+    backgroundColor: "#0d161f",
     padding: 15,
     borderRadius: 10,
     color: "#fff",
     borderWidth: 1,
-    borderColor: "#2ecc71",
+    borderColor: "#2e3ecc",
   },
 
   forgot: {
@@ -148,6 +182,7 @@ const styles = StyleSheet.create({
     textAlign: "right",
     marginTop: 10,
     marginBottom: 20,
+    fontSize: 16,
   },
 
   button: {
@@ -167,10 +202,19 @@ const styles = StyleSheet.create({
     color: "#aaa",
     textAlign: "center",
     marginTop: 20,
+    fontSize: 16,
   },
 
   registerHighlight: {
     color: "#2ecc71",
     fontWeight: "bold",
+    fontSize: 16,
   },
+  contatoPlataforma: {
+    color: "#aaa",
+    textAlign: 'center',
+    paddingTop: 20,
+    fontSize: 14, 
+    textDecorationLine: 'underline',
+  }
 });
