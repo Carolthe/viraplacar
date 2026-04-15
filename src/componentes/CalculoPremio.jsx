@@ -40,7 +40,13 @@ export default function CalculoPremio({
   // ================================
   useEffect(() => {
     const timeout = setTimeout(async () => {
-      if (!valor || valorNumerico <= 0 || !id_jogo) {
+      if (
+        !valor ||
+        valorNumerico <= 0 ||
+        !id_jogo ||
+        gol1 === "" ||
+        gol2 === ""
+      ) {
         setPremio("0.00");
         return;
       }
@@ -48,17 +54,24 @@ export default function CalculoPremio({
       try {
         const response = await api.post("/apostas/calcular", {
           valor: valorNumerico,
-          id_jogo
+          id_jogo,
+          placar1: parseInt(gol1, 10),
+          placar2: parseInt(gol2, 10),
         });
 
         setPremio(response.data.premio);
+
       } catch (err) {
-        console.log("Erro ao calcular prêmio", err);
+        if (err.response?.status === 404) {
+          setPremio("0.00");
+        } else {
+          console.log(err);
+        }
       }
     }, 400);
 
     return () => clearTimeout(timeout);
-  }, [valor, id_jogo]);
+  }, [valor, gol1, gol2, id_jogo]);
 
   // ================================
   // 🔥 CRIAR APOSTA
