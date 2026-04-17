@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: "http://localhost:5000/api", // usa a variável do .env
+  baseURL: "https://backend-production-4a532.up.railway.app/api", // usa a variável do .env
   withCredentials: true, // se quiser enviar cookies HttpOnly
 });
 
