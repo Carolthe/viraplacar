@@ -30,8 +30,6 @@ const [confirmado, setConfirmado] = useState(false);
 
         const data = response.data;
 
-        console.log("DATA:", data);
-
         if (data?.pix_pagamento) {
           setPixKey(data.pix_pagamento);
         }

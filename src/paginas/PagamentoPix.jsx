@@ -11,9 +11,7 @@ export default function PagamentoPix({ route }) {
 
   const { jogo, placar, valor, premio = 0, id_aposta } = route.params || {};
 
-  const [mostrarQr, setMostrarQr] = useState(false);
-  console.log("PARAMS RECEBIDOS:", route.params);
-  
+  const [mostrarQr, setMostrarQr] = useState(false);  
 
   return (
     <ScrollView style={styles.screen}>

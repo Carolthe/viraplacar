@@ -5,10 +5,11 @@ import CardPartida from "../componentes/CardPartida";
 import CalculoPremio from "../componentes/CalculoPremio";
 import { useNavigation } from "@react-navigation/native";
 import api from "../services/api";
+import CardTimeGanhador from "../componentes/CardTimeGanhador";
 
 const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 
-export default function PlacarJogo() {
+export default function TimeGanhador (){
   const navigation = useNavigation();
 
   const [jogos, setJogos] = useState([]);
@@ -67,7 +68,7 @@ export default function PlacarJogo() {
             style={styles.scrollStyle}>
             <Header />
 
-            <Text style={styles.descricao3} >Acerte o Placar Exato</Text>
+            <Text style={styles.descricao3} >Acerte o Time que vai Ganhar</Text>
 
         <Text style={styles.descricaoCampeonato}>Brasileirão Série A:</Text>
 
@@ -91,14 +92,7 @@ export default function PlacarJogo() {
             }}
           />
         
-          <CalculoPremio
-            id_jogo={jogo.id_jogo}
-            sigla1={jogo.nome_time1.slice(0, 3).toUpperCase()}
-            sigla2={jogo.nome_time2.slice(0, 3).toUpperCase()}
-            nomeTime1={jogo.nome_time1}
-            nomeTime2={jogo.nome_time2}
-            corInput="#641e8a"
-          />
+       <CardTimeGanhador/>
 
         </View>
       ))}

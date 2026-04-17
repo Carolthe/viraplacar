@@ -10,76 +10,66 @@ import {
 } from "react-native";
 import api from "../services/api";
 import VoltarAposta from "../componentes/VoltarAposta";
+import { useAuth } from "../contexts/AuthContext";
 
 export default function Login({ navigation, route }) {
+
+  const { login } = useAuth();
 
   const params = route?.params;
 
   const [nome, setNome] = useState(""); // ✅ backend usa nome
   const [senha, setSenha] = useState("");
   const [loading, setLoading] = useState(false);
-
+  const [erro, setErro] = useState("");
 
   const handleLogin = async () => {
-    if (!nome || !senha) {
-      Alert.alert("Erro", "Preencha todos os campos");
-      return;
+  // limpa erro anterior
+  setErro("");
+
+  if (!nome || !senha) {
+    setErro("Preencha todos os campos");
+    return;
+  }
+
+  try {
+    setLoading(true);
+
+    const response = await api.post(
+      "/usuarios/login",
+      { nome, senha },
+      { withCredentials: true }
+    );
+
+    const data = response.data;
+
+    login(data.usuario);
+
+    navigation.navigate("Home", {
+      ...params,
+    });
+
+  } catch (error) {
+    console.error(error);
+
+    const mensagem = error.response?.data?.error;
+
+    if (mensagem?.toLowerCase().includes("nome")) {
+      setErro("Nome incorreto");
+    } else if (mensagem?.toLowerCase().includes("senha")) {
+      setErro("Senha incorreta");
+    } else {
+      setErro("Erro ao fazer login");
     }
 
-    try {
-      setLoading(true);
-
-      const response = await api.post(
-        "/usuarios/login",
-        { nome, senha },
-        { withCredentials: true }
-      );
-
-      const data = response.data;
-
-      Alert.alert("Sucesso", data.message || "Login realizado!");
-
-      // if (params) {
-      //   // 🔥 cria aposta e GUARDA a resposta
-      //   const apostaResponse = await api.post(
-      //     "/apostas/criar",
-      //     {
-      //       placar1: params.placar.split(" x ")[0],
-      //       placar2: params.placar.split(" x ")[1],
-      //       valor: parseFloat(params.valor),
-      //     },
-      //     { withCredentials: true }
-      //   );
-
-      //   // 🔥 pega o ID corretamente
-      //   const id_aposta = apostaResponse.data.id_aposta;
-
-      //   console.log("ID APOSTA CRIADA:", id_aposta);
-
-        // 🔥 envia corretamente para próxima tela
-        navigation.navigate("Home", {
-          ...params,
-          // id_aposta,
-        });
-
-        console.log("PARAMS NO LOGIN:", params);
-
-      }
-     catch (error) {
-      console.error(error);
-
-      Alert.alert(
-        "Erro",
-        error.response?.data?.error || "Erro ao fazer login"
-      );
-    } finally {
-      setLoading(false);
-    }
-  };
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <View style={styles.container}>
-      <VoltarAposta/>
+      <VoltarAposta />
       <Text style={styles.title}>Entrar</Text>
       <Text style={styles.subtitle}>
         Digite suas credenciais para acessar sua conta
@@ -105,11 +95,12 @@ export default function Login({ navigation, route }) {
         value={senha}
         onChangeText={setSenha}
       />
+      {erro ? <Text style={styles.erro}>{erro}</Text> : null}
 
       {/* Esqueceu senha */}
-      <TouchableOpacity onPress={() => navigation?.navigate("RecuperarSenha")}>
+      {/* <TouchableOpacity onPress={() => navigation?.navigate("RecuperarSenha")}>
         <Text style={styles.forgot}>Esqueceu sua senha?</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
 
       {/* Botão */}
       <TouchableOpacity style={styles.button} onPress={handleLogin}>
@@ -132,7 +123,7 @@ export default function Login({ navigation, route }) {
           </Text>
         </Text>
       </TouchableOpacity>
-      <Text style={styles.contatoPlataforma}>Entrar em Contato com a Plataforma</Text>
+      {/* <Text style={styles.contatoPlataforma}>Entrar em Contato com a Plataforma</Text> */}
     </View>
   );
 }
@@ -190,6 +181,7 @@ const styles = StyleSheet.create({
     padding: 15,
     borderRadius: 10,
     alignItems: "center",
+    marginTop: 20,
   },
 
   buttonText: {
@@ -214,7 +206,13 @@ const styles = StyleSheet.create({
     color: "#aaa",
     textAlign: 'center',
     paddingTop: 20,
-    fontSize: 14, 
+    fontSize: 14,
     textDecorationLine: 'underline',
-  }
+  },
+  erro: {
+  color: "red",
+  marginTop: 10,
+  textAlign: "center",
+  fontSize: 14,
+},
 });

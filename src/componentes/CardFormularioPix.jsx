@@ -12,9 +12,7 @@ export default function CardFormularioPix({ id_aposta, onGerar }) {
     if (!isFormValid) return;
 
     try {
-      console.log("ID APOSTA:", id_aposta);
-      console.log("PIX:", pixKey);
-      console.log("NOME:", name);
+  
       await api.post(
         "/apostas/pagar",
         {
@@ -25,8 +23,7 @@ export default function CardFormularioPix({ id_aposta, onGerar }) {
         { withCredentials: true }
       );
 
-      console.log("PIX Key:", pixKey);
-      console.log("Nome:", name);
+     
 
       // 🔥 MOSTRAR QR CODE
       onGerar && onGerar();
