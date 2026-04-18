@@ -80,10 +80,10 @@ export default function CriarConta({ navigation }) {
       {erro ? <Text style={styles.erro}>{erro}</Text> : null}
 
       {/* Nome */}
-      <Text style={styles.label}>Nome Completo</Text>
+      <Text style={styles.label}>Nome</Text>
       <TextInput
         style={styles.input}
-        placeholder="Seu nome completo"
+        placeholder="Seu nome"
         placeholderTextColor="#aaa"
         value={nome}
         onChangeText={setNome}
