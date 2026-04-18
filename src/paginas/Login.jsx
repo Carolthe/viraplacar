@@ -24,7 +24,6 @@ export default function Login({ navigation, route }) {
   const [erro, setErro] = useState("");
 
   const handleLogin = async () => {
-  // limpa erro anterior
   setErro("");
 
   if (!nome || !senha) {
@@ -35,23 +34,15 @@ export default function Login({ navigation, route }) {
   try {
     setLoading(true);
 
-    const response = await api.post(
-      "/usuarios/login",
-      { nome, senha },
-      { withCredentials: true }
-    );
-
+    const response = await api.post("/usuarios/login", { nome, senha });
     const data = response.data;
 
-    login(data.usuario);
+    login(data.usuario, data.token); // ✅ passa o token
 
-    navigation.navigate("Home", {
-      ...params,
-    });
+    navigation.navigate("Home", { ...params });
 
   } catch (error) {
     console.error(error);
-
     const mensagem = error.response?.data?.error;
 
     if (mensagem?.toLowerCase().includes("nome")) {
@@ -61,7 +52,6 @@ export default function Login({ navigation, route }) {
     } else {
       setErro("Erro ao fazer login");
     }
-
   } finally {
     setLoading(false);
   }
